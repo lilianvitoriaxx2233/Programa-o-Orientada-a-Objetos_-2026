@@ -6,7 +6,9 @@ class Triangulo: #classe: forma de bolo #classe é um modelo de um triângulo
     #método - cálculo que vão ser feitos
     def calc_area(self):
         return self.b * self.h / 2
-    
+# x é a referência do objeto criado pela instrução Triangulo()
+# x é um link <a href>
+# Triangulo() é a página
 x = Triangulo()
 print(x.b, x.h)
 print("Informe a base do triângulo")
