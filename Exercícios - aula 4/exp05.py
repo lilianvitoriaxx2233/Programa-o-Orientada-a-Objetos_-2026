@@ -8,7 +8,7 @@ class Pais:
     def densidade(self):
         return self.populacao / self.area
 
-# A principal ntrada de dados
+# A principal entrada de dados
 nome = input("Digite o nome do país: ")
 populacao = int(input("Digite a população: "))
 area = float(input("Digite a área em km2: "))
