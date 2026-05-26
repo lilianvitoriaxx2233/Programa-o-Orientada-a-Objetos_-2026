@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Naioca Doces</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background: linear-gradient(to right,#f6d7df,#fff,#f6d7df);
+      min-height:100vh;
+    }
+
+    /* TOPO */
+    header{
+      display:flex;
+      justify-content:space-between;
+      padding:15px;
+      color:#8b0020;
+      font-weight:bold;
+    }
+
+    header a{
+      text-decoration:none;
+      color:#8b0020;
+      margin-left:10px;
+    }
+
+    /* LOGO */
+    .logo-area{
+      text-align:center;
+      margin-top:40px;
+    }
+
+    .logo-area img{
+      width:280px;
+      max-width:90%;
+    }
+
+    /* CARD PRODUTOS */
+    .container{
+      width:90%;
+      max-width:1000px;
+      margin:40px auto;
+      background:#deb0bc;
+      padding:30px;
+      border-radius:25px;
+    }
+
+    .produto-img{
+      display:flex;
+      justify-content:center;
+      margin-bottom:30px;
+    }
+
+    .produto-img img{
+      width:400px;
+      max-width:100%;
+      border-radius:20px;
+    }
+
+    h2{
+      margin-bottom:25px;
+      font-size:40px;
+    }
+
+    .produto{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:20px 0;
+      font-size:25px;
+      font-weight:bold;
+    }
+
+    .contador{
+      display:flex;
+      align-items:center;
+      gap:15px;
+      background:white;
+      padding:10px 20px;
+      border-radius:30px;
+    }
+
+    .contador button{
+      border:none;
+      background:none;
+      font-size:25px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    textarea{
+      width:100%;
+      margin-top:15px;
+      padding:15px;
+      border-radius:15px;
+      border:none;
+      resize:none;
+    }
+
+    .btn{
+      margin-top:25px;
+      background:white;
+      border:none;
+      padding:15px 25px;
+      border-radius:15px;
+      font-size:20px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    /* MODAL LOGIN */
+    .modal{
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      background:white;
+      width:90%;
+      max-width:700px;
+      padding:40px;
+      border-radius:25px;
+      display:none;
+      z-index:10;
+      border:3px solid #444;
+    }
+
+    .modal h1{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .fechar{
+      position:absolute;
+      right:20px;
+      top:10px;
+      font-size:40px;
+      cursor:pointer;
+    }
+
+    .modal label{
+      font-size:30px;
+      font-weight:bold;
+    }
+
+    .modal input{
+      width:100%;
+      padding:15px;
+      margin:10px 0 30px;
+      font-size:20px;
+    }
+
+    .linha{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:25px;
+    }
+
+    .entrar{
+      width:100%;
+      background:black;
+      color:white;
+      padding:20px;
+      border:none;
+      font-size:35px;
+      cursor:pointer;
+      margin-bottom:20px;
+    }
+
+    /* MODAL PAGAMENTO */
+    .pagamento{
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      background:#deb0bc;
+      width:90%;
+      max-width:900px;
+      padding:30px;
+      border-radius:25px;
+      display:none;
+      z-index:11;
+    }
+
+    .pagamento input{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:20px;
+      margin-bottom:15px;
+      font-size:20px;
+    }
+
+    .topo-pagamento{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .formas{
+      text-align:center;
+      margin-top:40px;
+    }
+
+    .formas button{
+      padding:15px 30px;
+      margin:10px;
+      border:none;
+      border-radius:20px;
+      cursor:pointer;
+      font-size:22px;
+      font-weight:bold;
+    }
+
+    .overlay{
+      position:fixed;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.4);
+      top:0;
+      left:0;
+      display:none;
+      z-index:5;
+    }
+
+    @media(max-width:700px){
+
+      .produto{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+      }
+
+      h2{
+        font-size:30px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ESCURECER FUNDO -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- TOPO -->
+  <header>
+    <div>
+      Gmail:naioca@gmail.com &nbsp;&nbsp;
+      Telefone:(84)40028922
+    </div>
+
+    <div>
+      <a href="#" onclick="abrirLogin()">Login</a>
+      |
+      <a href="#">Menu</a>
+    </div>
+  </header>
+
+  <!-- LOGO -->
+  <section class="logo-area">
+
+    <!-- INSIRA SUA IMAGEM AQUI -->
+    <img src="imagens/logo.png" alt="Logo Naioca">
+
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="container">
+
+    <!-- INSIRA A FOTO DO BOLO AQUI -->
+    <div class="produto-img">
+      <img src="imagens/bolo.jpg" alt="Bolo no pote">
+    </div>
+
+    <h2>Bolo no pote:</h2>
+
+    <div class="produto">
+      <span>Bolo de chocolate:</span>
+
+      <div class="contador">
+        <button onclick="alterar('chocolate', -1)">-</button>
+        <span id="chocolate">0</span>
+        <button onclick="alterar('chocolate', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="produto">
+      <span>Bolo de morango:</span>
+
+      <div class="contador">
+        <button onclick="alterar('morango', -1)">-</button>
+        <span id="morango">0</span>
+        <button onclick="alterar('morango', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="produto">
+      <span>Bolo de cenoura:</span>
+
+      <div class="contador">
+        <button onclick="alterar('cenoura', -1)">-</button>
+        <span id="cenoura">0</span>
+        <button onclick="alterar('cenoura', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="produto">
+      <span>Bolo de ninho:</span>
+
+      <div class="contador">
+        <button onclick="alterar('ninho', -1)">-</button>
+        <span id="ninho">0</span>
+        <button onclick="alterar('ninho', 1)">+</button>
+      </div>
+    </div>
+
+    <div class="produto">
+      <span>Bolo de limão:</span>
+
+      <div class="contador">
+        <button onclick="alterar('limao', -1)">-</button>
+        <span id="limao">0</span>
+        <button onclick="alterar('limao', 1)">+</button>
+      </div>
+    </div>
+
+    <h3 style="margin-top:40px;">Adicionar algum detalhe?</h3>
+
+    <textarea rows="4" placeholder="Escreva aqui"></textarea>
+
+    <br>
+
+    <button class="btn" onclick="abrirPagamento()">
+      Finalizar compra
+    </button>
+
+  </section>
+
+  <!-- LOGIN -->
+  <div class="modal" id="login">
+
+    <span class="fechar" onclick="fecharTudo()">×</span>
+
+    <h1>LOGIN</h1>
+
+    <label>Email</label>
+    <input type="email" placeholder="pippo@gmail.com">
+
+    <label>Senha</label>
+    <input type="password" placeholder="Insira sua senha">
+
+    <div class="linha">
+      <div>
+        <input type="checkbox">
+        concordar
+      </div>
+
+      <strong>esqueceu senha?</strong>
+    </div>
+
+    <button class="entrar">Entrar</button>
+
+    <p style="text-align:center;">
+      Aperte aqui para <u>Criar Conta</u>
+    </p>
+
+  </div>
+
+  <!-- PAGAMENTO -->
+  <div class="pagamento" id="pagamento">
+
+    <div class="topo-pagamento">
+
+      <button class="btn">Retirada</button>
+      <button class="btn">Entrega</button>
+
+      <span class="fechar" onclick="fecharTudo()">×</span>
+
+    </div>
+
+    <br>
+
+    <input type="text" placeholder="CEP">
+    <input type="text" placeholder="Rua">
+    <input type="text" placeholder="Nº da casa">
+
+    <div class="formas">
+
+      <h2>Formas de Pagamento</h2>
+
+      <button>Pix</button>
+      <button>Dinheiro</button>
+      <button>Cartão</button>
+
+      <br><br>
+
+      <input type="text" placeholder="Precisa de troco? valor">
+
+      <br>
+
+      <button class="btn">Enviar</button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // CONTADOR
+    function alterar(id, valor){
+
+      let numero = document.getElementById(id);
+
+      let atual = parseInt(numero.innerText);
+
+      atual += valor;
+
+      if(atual < 0){
+        atual = 0;
+      }
+
+      numero.innerText = atual;
+    }
+
+    // LOGIN
+    function abrirLogin(){
+      document.getElementById("login").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    // PAGAMENTO
+    function abrirPagamento(){
+      document.getElementById("pagamento").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    // FECHAR
+    function fecharTudo(){
+
+      document.getElementById("login").style.display = "none";
+
+      document.getElementById("pagamento").style.display = "none";
+
+      document.getElementById("overlay").style.display = "none";
+    }
+
+  </script>
+
+</body>
+</html>
