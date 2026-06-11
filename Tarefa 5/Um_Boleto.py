@@ -224,6 +224,4 @@ class BoletoUI:
             else:
 
                 print("Opção inválida.")
-
-
 BoletoUI.Main()
