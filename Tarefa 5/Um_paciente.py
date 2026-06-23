@@ -6,6 +6,7 @@ class Paciente:
         self.set_cpf(cpf)
         self.set_telefone(telefone)
         self.set_nascimento(nascimento)
+
     def set_id(self, id):
         if id < 0:
             raise ValueError("ID deve ser positivo")
@@ -36,6 +37,7 @@ class Paciente:
         return self.__telefone
     def get_nascimento(self):
         return self.__nascimento
+    
     def __str__(self):
         return (f"ID: {self.get_id()}"
                 f"Nome: {self.get_nome()}"
@@ -72,6 +74,7 @@ class PacienteUI:
     def menu():
         print("1- Inserir, 2- Listar, 3- Sair, 4- excluir, 5-Pesquisar, 6- Aniversariante, 9- Fim")
         return int(input("Escolha uma opção: "))
+    
     @staticmethod
     def inserir():
         id = int(input("Informe o ID: "))
@@ -81,7 +84,7 @@ class PacienteUI:
         nascimento = input("Informe a data de nascimento (dd/mm/yyyy): ")
         nascimento = datetime.strptime(nascimento, "%d/%m/%Y")
         paciente = Paciente(id, nome, cpf, telefone, nascimento)
-        PacienteUI.__paciente.append(paciente)
+        PacienteUI.__paciente.append(paciente) #colocou tudo o que criamos na fu. inserir dentro da lista encapsulada paciente
 
     @staticmethod
     def listar():
