@@ -33,5 +33,19 @@
     "email": "123",
     "fone": "4546",
     "senha": "123"
+  },
+  {
+    "id": 6,
+    "nome": "Cuca da Silva",
+    "email": "cuquinha@gmail.com",
+    "fone": "5584991986988",
+    "senha": "190420"
+  },
+  {
+    "id": 7,
+    "nome": "J\u00falio Julian Lima",
+    "email": "juju_o_mais_mais@gmail.com",
+    "fone": "40028922",
+    "senha": "19456"
   }
 ]

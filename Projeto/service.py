@@ -76,6 +76,34 @@ class Service:
         r.sort(key = lambda obj : obj.get_data())
         return r
     @staticmethod
+    def horario_listar_nao_confirmados_hoje():
+        """Retorna os agendamentos de hoje que aguardam confirmação."""
+        hoje = datetime.now().date()
+        horarios = [
+            horario for horario in Service.horario_listar()
+            if horario.get_data().date() == hoje
+            and not horario.get_confirmado()
+            and horario.get_id_cliente() is not None
+        ]
+        horarios.sort(key=lambda horario: horario.get_data())
+        return horarios
+
+    @staticmethod
+    def horario_listar_cliente(id_cliente):
+        """Retorna os horários do cliente para a ListarAgendaClienteUI."""
+        horarios = [
+            horario for horario in Service.horario_listar()
+            if horario.get_id_cliente() == id_cliente
+        ]
+        horarios.sort(key=lambda horario: horario.get_data())
+        return horarios
+
+    @staticmethod
+    def horario_listar_agenda_cliente(id_cliente):
+        """Retorna os horários agendados para um cliente, em ordem cronológica."""
+        return Service.horario_listar_cliente(id_cliente)
+
+    @staticmethod
     def horario_listar_id(id): 
         return HorarioDAO().listar_id(id)
     @staticmethod
@@ -101,15 +129,26 @@ class Service:
         return r
     @staticmethod
     def horario_abrir_agenda(data, hora_inicio, hora_fim, intervalo, id_profissional):
+
+        if intervalo <= 0:
+            raise ValueError("O intervalo deve ser maior que zero")
+
         data_inicio = datetime.strptime(data + " " + hora_inicio, "%d/%m/%Y %H:%M")
+
         data_fim = datetime.strptime(data + " " + hora_fim, "%d/%m/%Y %H:%M")
-        delta = timedelta(minutes = intervalo)
+
+        if data_fim <= data_inicio:
+            raise ValueError("O horário final deve ser maior que o horário inicial")
+            
+        delta = timedelta(minutes=intervalo)
+
         x = data_inicio
+
         while x <= data_fim:
-            # insira um horário
             Service.horario_inserir(x, False, None, None, id_profissional)
-            # vá para o próximo horário
+
             x = x + delta
+            
     @staticmethod
     def horario_visualizar_minha_agenda(id_profissional):
         r = []
@@ -160,4 +199,48 @@ class Service:
         for c in Service.profissional_listar():
             if c.get_email() == email and c.get_senha() == senha:
                 return {"id": c.get_id(), "nome": c.get_nome()}
+    @staticmethod
+    def horario_listar_profissional(id_profissional):
+        r = []
+        for h in Service.horario_listar():
+            if h.get_id_profissional() == id_profissional:
+                r.append(h)
+        r.sort(key=lambda h: h.get_data())
+        return r
+        
+    
+    @staticmethod
+    def horario_listar_pendentes(id_profissional):
+        r = []
+
+        for h in Service.horario_listar():
+            if h.get_id_profissional() == id_profissional \
+            and h.get_id_cliente() != None \
+            and h.get_confirmado() == False:
+                r.append(h)
+
+        r.sort(key=lambda h: h.get_data())
+        return r
+
+    @staticmethod
+    def horario_confirmar(id):
+        horario = Service.horario_listar_id(id)
+
+        if horario != None:
+            Service.horario_atualizar(
+                horario.get_id(),
+                horario.get_data(),
+                True,
+                horario.get_id_cliente(),
+                horario.get_id_servico(),
+                horario.get_id_profissional()
+            )
+
+    @staticmethod
+    def cliente_alterar_senha(id, senha):
+        cliente = Service.cliente_listar_id(id)
+
+        if cliente != None:
+            Service.cliente_atualizar(cliente.get_id(), cliente.get_nome(), cliente.get_email(), cliente.get_fone(), senha)
+            
         return None        
